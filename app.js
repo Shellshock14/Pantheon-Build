@@ -80,4 +80,9 @@ $('reset').onclick=()=>{$('preset').value='custom';for(const id of ['name','rule
 function syncColorControl(){const toggle=$('customTextColor'),picker=$('textColor');if(toggle&&picker)picker.disabled=!toggle.checked;render();}
 if($('customTextColor'))$('customTextColor').addEventListener('change',syncColorControl);if($('textColor'))$('textColor').addEventListener('input',render);
 $('preset').addEventListener('change',applyPreset);$('color').addEventListener('change',()=>{$('preset').value='custom';loadFrame();});$('variant').addEventListener('change',loadFrame);for(const id of ['name','rules','cost','vp','zoom','x','y'])$(id).addEventListener('input',render);
-loadFrame();
+try {
+  loadFrame();
+} catch (error) {
+  alert('Frame startup error: ' + error.message);
+  console.error(error);
+}
