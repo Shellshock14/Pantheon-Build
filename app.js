@@ -8,20 +8,21 @@ function loadFrame(){
   const key=$('color').value+'-'+$('variant').value;
   const token=++frameToken;
   if(frameCache[key]){frame=frameCache[key];render();return;}
+  frame=null;render();
   // Works with images in frames/, in the website root, or assets/frames/.
   // Relative URLs preserve the GitHub Pages repository prefix.
-  const candidates=['./frames/'+key+'.png','./'+key+'.png','./assets/frames/'+key+'.png'];
+  const candidates=['./'+key+'.png','./frames/'+key+'.png','./assets/frames/'+key+'.png'];
   let next=0;
   function tryNext(){
     if(token!==frameToken)return;
     if(next>=candidates.length){
       frame=null;render();
-      alert('Unable to load frame: '+key+'\nChecked: '+candidates.join(', ')+'\nConfirm the PNG files are committed to the same published branch as index.html.');
+      alert('Unable to load frame: '+key+'\nChecked: '+candidates.join(', ')+'\nCheck that '+key+'.png exists in your GitHub repository root.');
       return;
     }
     const url=candidates[next++];
     const im=new Image();
-    im.onload=()=>{if(token!==frameToken)return;frameCache[key]=im;frame=im;render();};
+    im.onload=()=>{if(token!==frameToken)return;frameCache[key]=im;frame=im;render();console.info('Frame loaded:',url,im.naturalWidth,im.naturalHeight);};
     im.onerror=()=>{console.warn('Frame not found:',url);tryNext();};
     im.src=url;
   }
