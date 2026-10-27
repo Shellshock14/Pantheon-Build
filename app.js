@@ -8,7 +8,6 @@ function loadFrame(){
   const key=$('color').value+'-'+$('variant').value;
   const token=++frameToken;
   if(frameCache[key]){frame=frameCache[key];render();return;}
-  frame=null;render();
   // Works with images in frames/, in the website root, or assets/frames/.
   // Relative URLs preserve the GitHub Pages repository prefix.
   const candidates=['./'+key+'.png','./frames/'+key+'.png','./assets/frames/'+key+'.png'];
@@ -17,19 +16,19 @@ function loadFrame(){
     if(token!==frameToken)return;
     if(next>=candidates.length){
       frame=null;render();
-      alert('Unable to load frame: '+key+'\nChecked: '+candidates.join(', ')+'\nCheck that '+key+'.png exists in your GitHub repository root.');
+      alert('Unable to load frame: '+key+'\nChecked: '+candidates.join(', ')+'\nConfirm the PNG files are committed to the same published branch as index.html.');
       return;
     }
     const url=candidates[next++];
     const im=new Image();
-    im.onload=()=>{if(token!==frameToken)return;frameCache[key]=im;frame=im;render();console.info('Frame loaded:',url,im.naturalWidth,im.naturalHeight);};
+    im.onload=()=>{if(token!==frameToken)return;frameCache[key]=im;frame=im;render();};
     im.onerror=()=>{console.warn('Frame not found:',url);tryNext();};
     im.src=url;
   }
   tryNext();
 }
 // All text and medallion positions are in the 1500 x 2100 export coordinate system.
-function customColor(defaultColor){return $('customTextColor').checked?$('textColor').value:defaultColor;}
+function customColor(defaultColor){const toggle=$('customTextColor'),picker=$('textColor');return toggle&&picker&&toggle.checked?picker.value:defaultColor;}
 function fitText(text,x,y,maxWidth,size,color,align='center',weight=900){
   if(!text)return;
   ctx.save();ctx.textAlign=align;ctx.textBaseline='middle';ctx.fillStyle=color;
@@ -73,12 +72,12 @@ function render(){
 function applyPreset(){const p=$('preset').value;if(p==='fate'||p==='misfortune'){$('color').value='white';$('name').value=p==='fate'?'Fate':'Misfortune';$('rules').value=p==='fate'?'+1 Favor':'';$('cost').value='0';$('vp').value=p==='fate'?'0':'1';}loadFrame();}
 function download(url,name){const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();}
 $('export').onclick=()=>download(canvas.toDataURL('image/png'),(($('name').value||$('color').value).toLowerCase().replace(/[^a-z0-9]+/g,'-')||'card')+'.png');
-$('save').onclick=()=>{const data=Object.fromEntries(ids.map(id=>[id,id==='customTextColor'?$(id).checked:$(id).value]));data.artwork=artData;const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));download(url,'pantheon-card-project.json');setTimeout(()=>URL.revokeObjectURL(url),5000);};
+$('save').onclick=()=>{const data=Object.fromEntries(ids.filter(id=>$(id)).map(id=>[id,id==='customTextColor'?$(id).checked:$(id).value]));data.artwork=artData;const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));download(url,'pantheon-card-project.json');setTimeout(()=>URL.revokeObjectURL(url),5000);};
 function setArtData(data){artData=data;if(!data){artwork=null;render();return;}const img=new Image();img.onload=()=>{artwork=img;render();};img.src=data;}
 $('art').onchange=e=>{const f=e.target.files?.[0];if(!f)return;const reader=new FileReader();reader.onload=()=>setArtData(reader.result);reader.readAsDataURL(f);};
-$('load').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{const data=JSON.parse(await f.text());for(const id of ids)if(data[id]!=null){if(id==='customTextColor')$(id).checked=!!data[id];else $(id).value=data[id];}syncColorControl();setArtData(data.artwork||null);loadFrame();}catch(err){alert('Could not open project: '+err.message);}};
+$('load').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{const data=JSON.parse(await f.text());for(const id of ids)if(data[id]!=null&&$(id)){if(id==='customTextColor')$(id).checked=!!data[id];else $(id).value=data[id];}syncColorControl();setArtData(data.artwork||null);loadFrame();}catch(err){alert('Could not open project: '+err.message);}};
 $('reset').onclick=()=>{$('preset').value='custom';for(const id of ['name','rules','cost','vp'])$(id).value='';$('zoom').value=1;$('x').value=0;$('y').value=0;setArtData(null);render();};
-function syncColorControl(){$('textColor').disabled=!$('customTextColor').checked;render();}
-$('customTextColor').addEventListener('change',syncColorControl);$('textColor').addEventListener('input',render);
+function syncColorControl(){const toggle=$('customTextColor'),picker=$('textColor');if(toggle&&picker)picker.disabled=!toggle.checked;render();}
+if($('customTextColor'))$('customTextColor').addEventListener('change',syncColorControl);if($('textColor'))$('textColor').addEventListener('input',render);
 $('preset').addEventListener('change',applyPreset);$('color').addEventListener('change',()=>{$('preset').value='custom';loadFrame();});$('variant').addEventListener('change',loadFrame);for(const id of ['name','rules','cost','vp','zoom','x','y'])$(id).addEventListener('input',render);
 loadFrame();
