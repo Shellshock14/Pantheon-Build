@@ -1,11 +1,9 @@
-# Pantheon Card Studio — unified frame draft
-Upload all contents of this ZIP to the root of your GitHub Pages repository, preserving `frames/`.
+# Pantheon Card Studio — corrected frame and canvas alignment
 
-- `index.html`, `style.css`, `app.js`, `.nojekyll`
-- `frames/`: 16 new 1500 × 2100 PNGs, 8 colors × ivory/black rules panels
-- All frames have identical geometry and a transparent artwork window. Upload artwork in the editor.
-- The title sits on white clouds at the top left; type is printed on the wave banner.
-- Lightning at bottom left is VP, coin at bottom right is cost.
-- Frame artwork is a new programmatic concept draft, **not** the original detailed illustration or print-ready art.
-- Art and rules panels both measure 1300 × 790 px; header and footer occupy 130 px of content each, with margin.
-- Existing saved project JSON can be loaded, but check text and artwork positioning after updating.
+Upload `index.html`, `style.css`, `app.js`, `.nojekyll`, and the entire `frames/` folder to the root of your GitHub Pages repository. Replace old files. Do not upload `build_frames.py` (included only for reproducibility).
+
+16 PNG frames: eight original types × ivory/black rules panels. Each 1500×2100 pixels, artwork window is transparent. Upload artwork through the editor; no artwork is baked into the frames. Title on white cloud header; waves mark the card type; River Styx footer with VP lightning on the left and cost coin on the right.
+
+The artwork and rules panels are both 1300×790 pixels. Top and bottom visual bands are approximately 130 pixels. Corrected canvas rendering avoids the duplicate art placeholder and places numbers on their symbols.
+
+This is a functional refined vector-style draft, not a reproduction of the earlier highly illustrated concept art.

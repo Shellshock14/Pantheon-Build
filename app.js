@@ -36,16 +36,16 @@ function wrapText(value,maxWidth){
 }
 function render(){
   ctx.clearRect(0,0,W,H);
-  ctx.fillStyle='#1d2938';ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#111827';ctx.fillRect(0,0,W,H);
   // Image is clipped to the exact common art opening, then the transparent frame overlays it.
-  ctx.save();roundedPath(106,186,1288,778,25);ctx.clip();
+  ctx.save();roundedPath(109,192,1282,768,15);ctx.clip();
   if(art){
     const zoom=Number($('zoom').value)||1;
-    const scale=Math.max(1288/art.width,778/art.height)*zoom;
+    const scale=Math.max(1282/art.width,768/art.height)*zoom;
     const w=art.width*scale,h=art.height*scale;
-    ctx.drawImage(art,750-w/2+Number($('x').value),575-h/2+Number($('y').value),w,h);
+    ctx.drawImage(art,750-w/2+Number($('x').value),576-h/2+Number($('y').value),w,h);
   }else{
-    ctx.fillStyle='#b8c5ce';ctx.fillRect(100,180,1300,790);
+    ctx.fillStyle='#b9c6d1';ctx.fillRect(100,180,1300,790);
   }
   ctx.restore();
   if(frame)ctx.drawImage(frame,0,0,W,H);
@@ -53,7 +53,7 @@ function render(){
   ctx.save();ctx.textAlign='left';ctx.textBaseline='middle';
   let name=String($('name').value||'');let size=65;
   while(size>30){ctx.font=`bold ${size}px Georgia,serif`;if(ctx.measureText(name).width<910)break;size-=2;}
-  ctx.fillStyle='#1b2737';ctx.fillText(name,150,103,920);
+  ctx.fillStyle='#1b2737';ctx.fillText(name,155,113,920);
   ctx.restore();
   const dark=$('variant').value==='black';
   const rules=$('rules').value||'';
@@ -64,8 +64,8 @@ function render(){
   let y=1210;
   for(const line of lines){if(y+sz>1850)break;ctx.fillText(line,192,y);y+=sz*1.32;}
   ctx.restore();
-  textFit($('vp').value,125,2012,90,73,36,'#ffffff');
-  textFit($('cost').value,1350,2012,88,69,35,'#28221b');
+  textFit($('vp').value,158,2001,63,54,25,'#172031');
+  textFit($('cost').value,1324,2001,88,60,27,'#28221b');
 }
 function setArtData(data){
   artData=data;
