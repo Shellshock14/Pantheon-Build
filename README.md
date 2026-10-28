@@ -1,9 +1,11 @@
-# Pantheon Card Studio V8 — Option 3 (Balanced Increase)
+# Pantheon Card Studio — unified frame draft
+Upload all contents of this ZIP to the root of your GitHub Pages repository, preserving `frames/`.
 
-GitHub Pages: upload the CONTENTS of this folder into your repository root. Keep `frames/` as a folder, not flattened.
-
-This update preserves 8 colors × 2 rules panel variants (16 frames), the working fallback frame loader, title and rules editing, cost and VP, color checkbox, and JSON projects. It applies the selected Option 3 proportions: reduced artwork, enlarged rules area and slightly reduced underworld art. Artwork windows are transparent PNG alpha and the browser applies the same shaped clipping.
-
-IMPORTANT: Gold, blue, purple, red, and black were rebuilt from the 10 exact user-supplied source images. Matching source files for orange, teal, and white were not supplied; those 6 frames are adapted from existing V7.2 assets and are visually provisional. Also, the provided reference images contain baked-in checkerboard patterns; transparency was recreated geometrically, so please visually proof the frame edges before printing.
-
-Cards: 1500 × 2100 px, 5:7. The black category is typeless. Gold = Divine Blessings.
+- `index.html`, `style.css`, `app.js`, `.nojekyll`
+- `frames/`: 16 new 1500 × 2100 PNGs, 8 colors × ivory/black rules panels
+- All frames have identical geometry and a transparent artwork window. Upload artwork in the editor.
+- The title sits on white clouds at the top left; type is printed on the wave banner.
+- Lightning at bottom left is VP, coin at bottom right is cost.
+- Frame artwork is a new programmatic concept draft, **not** the original detailed illustration or print-ready art.
+- Art and rules panels both measure 1300 × 790 px; header and footer occupy 130 px of content each, with margin.
+- Existing saved project JSON can be loaded, but check text and artwork positioning after updating.
